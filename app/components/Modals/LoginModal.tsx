@@ -1,7 +1,6 @@
 "use client"
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
-import axios from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -53,8 +52,8 @@ const LoginModal = () => {
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
       <hr />
-      <Button outline label="Continue with Google" icon={FcGoogle} onCLick={()=>{}} />
-      <Button outline label="Continue with Github" icon={AiFillGithub} onCLick={()=>{}} />
+      <Button outline label="Continue with Google" icon={FcGoogle} onCLick={()=>(signIn("google"))} />
+      <Button outline label="Continue with Github" icon={AiFillGithub} onCLick={()=>(signIn("github"))} />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="flex items-center gap-2 justify-center">
           <div>
