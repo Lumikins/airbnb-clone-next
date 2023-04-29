@@ -3,7 +3,7 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { AiFillGithub } from "react-icons/ai";
@@ -18,7 +18,7 @@ const LoginModal = () => {
   const registerModal = useRegisterModal()
   const loginModal = useLoginModal()
   const [isLoading, setIsLoading] = useState(false)
-  const {register,handleSubmit, formState : {errors}} = useForm<FieldValues>({
+  const {register, handleSubmit, formState : {errors}} = useForm<FieldValues>({
     defaultValues: {
       email: "",
       password: ""
@@ -41,6 +41,11 @@ const LoginModal = () => {
     })
   }
 
+  const toggle = useCallback(() => {
+    loginModal.onClose()
+    registerModal.onOpen()
+  },[loginModal, registerModal])
+
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading title="Welcome back" subtitle="Login to your account" />
@@ -57,10 +62,10 @@ const LoginModal = () => {
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="flex items-center gap-2 justify-center">
           <div>
-            Already have an account?
+            First time using Airbnb?
           </div>
-          <div onClick={registerModal.onClose} className="text-neutral-800 cursor-pointer hover:underline">
-            Log in
+          <div onClick={toggle} className="text-neutral-800 cursor-pointer hover:underline">
+            Create an account
           </div>
         </div>
       </div>

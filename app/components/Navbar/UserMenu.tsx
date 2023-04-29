@@ -5,6 +5,7 @@ interface UserMenuProps {
 }
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
+import useRentModal from "@/app/hooks/useRentModal";
 import { SafeUser } from "@/app/types";
 import { signOut } from "next-auth/react";
 import { useCallback, useState } from "react";
@@ -15,14 +16,22 @@ import MenuItem from "./MenuItem";
 const UserMenu:React.FC<UserMenuProps> = ({currentUser}) => {
   const registerModal = useRegisterModal()
   const loginModal = useLoginModal()
+  const rentModal = useRentModal()
   const [isOpen, setIsOpen] = useState(false)
   const toggleOpen = useCallback(() =>{
     setIsOpen((value) => !value)
   }, [])
+
+  // if user not connected, open login modal
+  const onRent = useCallback(() => {
+    if(!currentUser) return loginModal.onOpen()
+    rentModal.onOpen()
+  }, [loginModal, currentUser, rentModal])
+
   return ( 
     <div className="relative">
       <div className="flex items-center gap-3">
-        <div onClick={() => {}} className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer">
+        <div onClick={onRent} className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer">
           Airbnb your home
         </div>
         <div onClick={toggleOpen} className="p-4 md:py-1 md:px-2 border-2 border-neutral-200 flex items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition">
@@ -42,7 +51,7 @@ const UserMenu:React.FC<UserMenuProps> = ({currentUser}) => {
                 <MenuItem onClick={() => {}} label="My favorites" />
                 <MenuItem onClick={() => {}} label="My reservations" />
                 <MenuItem onClick={() => {}} label="My properties" />
-                <MenuItem onClick={() => {}} label="Airbnb my home" />
+                <MenuItem onClick={rentModal.onOpen} label="Airbnb my home" />
                 <hr />
                 <MenuItem onClick={() => signOut()} label="Logout" />
                 </>
