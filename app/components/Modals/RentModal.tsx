@@ -1,6 +1,5 @@
 "use client"
 
-import { data } from "@/app/data/categories";
 import useRentModal from "@/app/hooks/useRentModal";
 import axios from "axios";
 import dynamic from "next/dynamic";
@@ -15,6 +14,7 @@ import CountrySelect from "../Inputs/CountrySelect";
 import ImageUpload from "../Inputs/ImageUpload";
 import Input from "../Inputs/Input";
 import Modal from "./Modal";
+import { categories } from "../Navbar/Categories";
 
 enum STEPS {
   CATEGORY = 0,
@@ -101,7 +101,7 @@ const RentModal = () => {
     <div className="flex flex-col gap-8">
       <Heading title="Which of these best decribes your place?" subtitle="Pick a category" />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto">
-        {data.map((item) => (
+        {categories.map((item) => (
           <div key={item.label} className="col-span-1">
             <CategoryInput onClick={(category) => setCustomValue("category", category)} selected={category === item.label} label={item.label} icon={item.icon} />
           </div>
