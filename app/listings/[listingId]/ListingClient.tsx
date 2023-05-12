@@ -6,7 +6,7 @@ import ListingInfo from "@/app/components/Listings/ListingInfo";
 import ListingReservation from "@/app/components/Listings/ListingResrvation";
 import { categories } from "@/app/components/Navbar/Categories";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import { SafeListing, SafeUser, safeReservation } from "@/app/types";
+import { SafeListing, SafeUser, SafeReservation } from "@/app/types";
 import axios from "axios";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -21,7 +21,7 @@ const initialDateRange = {
 }
 
 interface ListingClientProps {
-  reservations?: safeReservation[]
+  reservations?: SafeReservation[]
   listing: SafeListing & {
     user: SafeUser
   }
@@ -57,8 +57,7 @@ const ListingClient: React.FC<ListingClientProps> = ({reservations = [], listing
     .then(() => {
       toast.success("Listing reserved!")
       setDateRange(initialDateRange)
-      // redirect to /trips
-      router.refresh()
+      router.push("/trips")
     })
     .catch(() => {
       toast.error("Listing not saved")

@@ -42,6 +42,7 @@ const LoginModal = () => {
   }
 
   const toggle = useCallback(() => {
+    toast.success("Logged in successfully")
     loginModal.onClose()
     registerModal.onOpen()
   },[loginModal, registerModal])
